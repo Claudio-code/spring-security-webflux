@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  security-api:
+    container_name: security-api
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - security-api-network
+    depends_on:
+      - security-api-mongo
+
+  security-api-mongo:
+    container_name: security-api-mongo
+    image: mongo:5.0.3
+    ports:
+      - "27017:27017"
+    volumes:
+      - .database:/data/db
+    networks:
+      - security-api-network
+
+networks:
+  security-api-network:
+    driver: bridge
