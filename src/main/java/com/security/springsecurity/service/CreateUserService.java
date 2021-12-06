@@ -1,7 +1,7 @@
 package com.security.springsecurity.service;
 
 import com.security.springsecurity.document.User;
-import com.security.springsecurity.dto.UserDTO;
+import com.security.springsecurity.dto.auth.UserDTORequest;
 import com.security.springsecurity.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,15 +13,14 @@ public class CreateUserService {
     private UserRepository userRepository;
     private PasswordService passwordService;
 
-    public Mono<User> execute(UserDTO userDTOOptional) {
-        User userToSave = encoderPassword(userDTOOptional);
-
+    public Mono<User> execute(UserDTORequest userDTORequestOptional) {
+        User userToSave = encoderPassword(userDTORequestOptional);
         return userRepository.save(userToSave);
     }
 
-    private User encoderPassword(UserDTO userDTO) {
-        String passwordEncoder = passwordService.getPasswordEncoder(userDTO.getPassword());
-        userDTO.setPassword(passwordEncoder);
-        return User.of(userDTO);
+    private User encoderPassword(UserDTORequest userDTORequest) {
+        String passwordEncoder = passwordService.getPasswordEncoder(userDTORequest.getPassword());
+        userDTORequest.setPassword(passwordEncoder);
+        return User.of(userDTORequest);
     }
 }

@@ -1,6 +1,6 @@
 package com.security.springsecurity.document;
 
-import com.security.springsecurity.dto.UserDTO;
+import com.security.springsecurity.dto.auth.UserDTORequest;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -15,7 +15,7 @@ public class User {
     private String username;
     private String password;
 
-    public static User of(UserDTO dto) {
+    public static User of(UserDTORequest dto) {
         return User.builder()
                 .username(dto.getUsername())
                 .password(dto.getPassword())

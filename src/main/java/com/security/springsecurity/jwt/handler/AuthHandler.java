@@ -1,7 +1,7 @@
 package com.security.springsecurity.jwt.handler;
 
 import com.security.springsecurity.document.User;
-import com.security.springsecurity.dto.UserDTO;
+import com.security.springsecurity.dto.auth.UserDTORequest;
 import com.security.springsecurity.service.CreateUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 @Service
 public record AuthHandler(CreateUserService createUserService) {
     public Mono<ServerResponse> singUp(ServerRequest request) {
-        return request.bodyToMono(UserDTO.class)
+        return request.bodyToMono(UserDTORequest.class)
                 .map(createUserService::execute)
                 .flatMap(this::singUpFormatResponse);
     }
